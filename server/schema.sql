@@ -2,11 +2,13 @@ CREATE DATABASE chat;
 
 USE chat;
 
+
+-- need to add auto increment to id keys
 CREATE TABLE messages (
-  id int(4) primary key, 
+  id int(4) not null auto_increment primary key, 
   messageBody varchar(140),
   users_Id int(4),
-  rooms_Id int(4) 
+  rooms_Id int(4)
 );
 
 CREATE TABLE rooms (
@@ -15,7 +17,8 @@ CREATE TABLE rooms (
 );
 
 CREATE TABLE users (
-  id int(4) primary key,
+  id 
+  int(4) not null auto_increment primary key,
   user varchar(50)
 );
 
