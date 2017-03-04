@@ -12,14 +12,14 @@ CREATE TABLE messages (
 );
 
 CREATE TABLE rooms (
-  id int(4) primary key,
-  room varchar(50)
+  id  int(4) not null auto_increment primary key,
+  room varchar(50) not null unique
 );
 
 CREATE TABLE users (
   id 
   int(4) not null auto_increment primary key,
-  user varchar(50)
+  user varchar(50) not null unique
 );
 
 -- foreign key messages.users_Id references rooms.id;
