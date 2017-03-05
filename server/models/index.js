@@ -4,9 +4,19 @@ var app = express();
 module.exports = {
   messages: {
     get: function (req, res) {
-      db.connect();
-      res.send('I got a GET request!!!');
-      db.end();
+      // db.connect();
+      db.query('select messageBody, room, user from users inner join messages on messages.users_Id = users.id inner join rooms on rooms.id = messages.rooms_Id', function(err, results ) {
+        if (err) {
+          console.log('long query err', err);
+        } else {
+          console.log('this is the get res body --------------', res.body);
+          console.log('this is what we want to respond to a get with strignified', JSON.stringify(results));
+          res.write(JSON.stringify(results));
+          res.send();
+          db.end();
+
+        }
+      });
     }, // a function which produces all the messages
     post: function (req, res) {
       db.query('insert into rooms set room = ?', req.body.roomname, function (err, results) {
@@ -27,14 +37,12 @@ module.exports = {
               } else {
                 info.users_Id = results[0].id;
                 info.messageBody = req.body.message;
-                console.log('this is the results from selecting user', results);
                 res.send('got a post request');
                 db.query('insert into messages set ?', info, function(err, results) {
                   if (err) {
                     throw err;
                   } else {
                     db.query('select * from messages', function(err, results) {
-                      console.log('this is the length of the results', results.length, results[0].messageBody);
                     });
                   }
                 });
@@ -61,7 +69,6 @@ module.exports = {
     // Ditto as above.
     get: function (req, res) {
       db.connect();
-      console.log('----------------------------------------------------!!', req.body);
       res.send('I got a GET request!!!');
       db.end();
     },
