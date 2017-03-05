@@ -13,7 +13,7 @@ module.exports = {
           console.log('this is what we want to respond to a get with strignified', JSON.stringify(results));
           res.write(JSON.stringify(results));
           res.send();
-          db.end();
+          //db.end();
 
         }
       });
@@ -42,8 +42,7 @@ module.exports = {
                   if (err) {
                     throw err;
                   } else {
-                    db.query('select * from messages', function(err, results) {
-                    });
+                    //db.end();
                   }
                 });
               }
@@ -79,6 +78,7 @@ module.exports = {
             console.log('we got an error', err);
           } else if (results) {
             console.log('this is the results', results);
+            db.end();
           } 
         });
       });
